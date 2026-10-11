@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume Analyzer</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <div class="app">
+    <header class="app-header">
+      <h1>📄 Resume Analyzer</h1>
+      <p>Upload your resume and paste a job description to see your match score and skill gaps.</p>
+    </header>
+
+    <main class="panel">
+      <form id="analyzeForm">
+        <div class="grid">
+          <div class="field">
+            <label for="resumeFile">Resume (PDF, DOCX, or TXT)</label>
+            <div class="file-drop" id="fileDrop">
+              <input type="file" id="resumeFile" name="resume_file" accept=".pdf,.docx,.txt" hidden>
+              <span id="fileLabel">Click to choose a file, or drag one here</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="section-head">
+              <label for="jobDescription">Job Description</label>
+              <span id="jdWordCount" class="word-count">0 words</span>
+            </div>
+            <textarea id="jobDescription" name="job_description" placeholder="Paste the full job description here..."></textarea>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" id="analyzeBtn">Analyze Match</button>
+          <button type="button" id="clearBtn" class="secondary">Clear</button>
+        </div>
+
+        <div id="errorBox" class="error-box hidden"></div>
+      </form>
+
+      <section id="results" class="results hidden">
+        <div class="score-row">
+          <div class="score-card">
+            <span class="score-value" id="finalScore">0%</span>
+            <span class="score-label">Overall Match</span>
+          </div>
+          <div class="score-card small">
+            <span class="score-value" id="similarityScore">0%</span>
+            <span class="score-label">Text Similarity</span>
+          </div>
+          <div class="score-card small">
+            <span class="score-value" id="skillCoverage">0%</span>
+            <span class="score-label">Skill Coverage</span>
+          </div>
+        </div>
+
+        <div class="skills-grid">
+          <div class="skill-col">
+            <h3>✅ Matched Skills <span id="matchedCount" class="count-badge"></span></h3>
+            <div id="matchedSkills" class="tag-list"></div>
+          </div>
+          <div class="skill-col">
+            <h3>⚠️ Missing Skills <span id="missingCount" class="count-badge missing"></span></h3>
+            <div id="missingSkills" class="tag-list"></div>
+          </div>
+          <div class="skill-col">
+            <h3>➕ Extra Skills on Resume</h3>
+            <div id="extraSkills" class="tag-list"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>Runs fully offline using TF-IDF similarity + keyword-based skill matching. No API key needed.</p>
+    </footer>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
